@@ -1,0 +1,25 @@
+兼容表 http://kangax.github.io/compat-table/es6/
+IE10+、Chrome、FireFox、移动端、NodeJS现在都支持
+
+兼容低版本浏览器
+ 1.在线转换（html页面加载转换工具包，编译加大页面渲染时间）客户端渲染
+ 2.提前编译--服务器端渲染
+
+ 通用工具方案：babel/jsx/traceur/es6-shim
+
+
+服务器端渲染
+   使用npm全局安装babel-cli包  npm install babel-cli -g
+   项目目录下新建.babelrc文件(babel配置文件)
+     {
+         "presets":["es2015","stage-2"],//设置转码规则
+         "plugins":["transform-runtime"]//设置插件
+     }
+     转换成es5015,安装  npm install babel-core babel-preset-es2015 babel-plugin-transform-runtime babel-preset-stage-2 --save-dev
+     package.json文件修改
+        "scripts":{"build":"babel src -w -d lib"}  ---编译整个src目录并将其输出到lib目录
+           src-需要转换的目录   lib输出内容的存放目录  -w   -watch监听文件，实时编译输出
+    新建src和lib目录
+
+    npm run build
+               

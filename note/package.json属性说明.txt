@@ -1,0 +1,29 @@
+生成 npm init
+
+{
+  "name": "vuetest",--包名
+  "version": "1.0.0",--版本号
+  "description": "",--描述
+  "main": "index.js",--指定程序入口文件，文件中require('moduleName')加载这个文件依赖的模块（node_modules下的模块名），默认index.js
+  "scripts": {
+    "test": "dir"
+  },
+  "repository": {//包存放地方类型（git，svn）
+    "type": "git",
+    "url": "git+https://github.com/zhangxiuheng95/VueTest.git"
+  },
+  "keywords": [],--关键字
+  "author": "",--包作者
+  "contributors":"",--包的其他贡献者
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangxiuheng95/VueTest/issues"
+  },
+  "homepage": "https://github.com/zhangxiuheng95/VueTest#readme",--包官网
+  "dependencies": {--依赖包列表，依赖包没安装时，npm会自动将依赖包安装到node_modules目录下
+    "jquery": "^3.6.0"  在npm install时   3.6.0安装3.6.0版本  ^3.x.x安装3.x.x最新的版本   ~3.6.x安装3.6.x最新的版本
+  },
+  "devDependencies": {
+    "bootstrap": "^5.1.3"
+  }
+}
