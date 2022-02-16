@@ -1,0 +1,11 @@
+$width: 200px;
+$height:100px;
+$color:red;
+
+#box3{
+    height: $height;
+    width: $width*3;
+    background-color: blueviolet;
+    color: $color;
+    backface-visibility: hidden;
+}

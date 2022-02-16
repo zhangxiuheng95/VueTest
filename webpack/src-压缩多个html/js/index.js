@@ -1,0 +1,1 @@
+console.log("首页用到的js文件");

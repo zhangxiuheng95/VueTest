@@ -1,0 +1,42 @@
+Yarn js包管理工具
+弥补npm5以前的一些缺陷
+   npm install慢
+   多人开发同一项目版本不一致
+
+官网 www.yarnpkg.com
+
+下载node.js   npm install -g yarn
+查看版本  yarn --version
+设置淘宝镜像 
+   yarn config set registry https://registry.npm.taobao.org -g
+   yarn config set sass_binary_site http://cdn.npm.taobao.org/dist/node-sass -g
+
+
+常用命令
+yarn init 初始化项目，生成package.json文件
+yarn install 安装package.json里所有的包，并将包及包的所有依赖项保存到yarn.lock文件
+yarn install --flat 安装一个包的单一版本
+yarn install --force 强制重新下载所有包
+yarn install --production 只安装dependencies里的包
+yarn install --no-lockfile 不读取或生成yran.lock
+yarn install --pure-lockfile 不生成yarn.lock
+yarn add <moduleName> 新增包，自动更新到package.json和yarn.lock  @version 指定版本  @tag 安装某个tag（beta,next,latest）  --dev 开发时依赖添加到devDependencies --peer 加到perrDependencies --option 加到optionalDependencies
+yarn add --exact/-E 安装包的精准版本 yarn add foo@1.2.3会接受1.9.1  ，yarn add foo@1.2.3 --exact 只接受1.2.3
+yarn add --tide/-T 安装包的次要版本的最新版本 yarn add foo@1.2.3 接受1.2.9，但不接受1.3.0
+yarn publish 发布包
+yarn remove <moduleName> 卸载包
+yarn upgrade <moduleName> 更新包
+yarn run 运行scripts下的脚本
+yarn info <packageName> 查看模块最新版信息
+yarn cache 缓存
+yarn ceche list 列出已缓存的每个包
+yarn cache dir 返回全局缓存位置
+yarn cache clean 清楚缓存
+
+
+优点
+速度快    npm单一队列安装 yarn多线程同步安装任务，离线安装，可从缓存中直接下载
+安装版本统一
+更简洁的输出
+多注册来源处理
+更好的语义化

@@ -1,0 +1,250 @@
+搭建开发环境
+打包优化项目
+
+
+模块打包器（构建工具），将JavaScript文件打包在一起，也可胜任转换（transform）、打包(bundle)或包裹(package)任何资源
+
+官网 https://webpack.js.org    中文文档  https://webpack.docschina.org
+
+
+原理和概念
+  树结构：在一个入口文件中引入所有资源，形成所有关系的树状图     require('文件')   import from ''
+  模块：可以是ES6模块，commonJS或者AMD模块，对webpack来说就是所有资源
+  chunk:打包过程中被操作的模块文件叫做chunk，例如异步加载一个模块就是一个chunk    js   css   img 
+  bundle：最后打包的文件，最终文件可以和chunk文件一样，但大部分情况是多个chunk集合    chunk到bundle中可 翻译、优化、压缩
+
+
+
+webpack.config.js中配置后可直接运行webpack命令
+//引用路径库，获取相对目录地址
+ const {resolve}= require('path');
+
+ //引用打包html插件
+ const HtmlWebpackPlugin=require('html-webpack-plugin');
+
+module.exports={
+// entry
+//     入口指示webpack以哪个文件作为入口起点开始打包，分析构建内部依赖图
+//单入口：如果只有一个入口，使用字符串，指定一个入口文件，打包一个chunk，输出一个bundle，chunk名称默认
+//entry:'./src/index.js',//默认路径为src/index.js
+//多入口文件  数组，所有的入口文件会形成一个chunk，名称是默认的，输出是一个bundle
+// entry:[
+//     "./src/index.js","./src/main.js"
+// ],
+//object  对象 多入口，有几个文件就生成几个chunk，并输出几个bundle，chunk的名称是key
+// entry:{
+//     one:'./src/index.js',
+//     tow:'./src/main.js'
+
+// },
+//特殊用法 对象和数组混合
+// entry:{
+//     one:['./src/main.js','./src/index.js'],
+//     tow:'./src/index.js'
+// },
+
+// entry:{
+//     vendor:['./src/js/jquery.js','./src/js/common.js'],
+//     index:"./src/js/index.js",
+//     cart:"./src/js/cart.js"
+// },
+
+entry:['./src/index.js'],
+
+
+// output 
+//     输出指示webpack 打包后的资源bundles输出到哪里，以及如何命名
+output:{
+    //filename:'build.js',//自定义
+    filename:'[name].js',//entry使用object入口模式，使用[name]关键字设置chunk名称
+    path:resolve(__dirname,'build')//dirname 根目录
+},
+
+// loader
+//     让webpack能够去处理那些非JavaScript资源如css、img等，将它们处理成webpack能够识别的资源（webpack本身只能理解js和json）
+module:{
+    rules:[
+
+    ]
+},
+
+// plugins
+//     插件  可用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量
+plugins:[
+    //默认创建空的html，自动引用打包的资源
+    //new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+        template:"./src/index.html",
+        filename:"index.html",
+        // chunks:["index","vendor"],//html需要引用的资源打包chunk，页面渲染从右往前渲染
+        // minify:{
+        //     //移除空格
+        //     collapaseWhitespace:true,
+        //     //移除注释
+        //     removeComments:true
+        // }
+    }),
+    //压缩几个html，就写几个new
+    // new HtmlWebpackPlugin({
+    //     template:"./src/cart.html",
+    //     filename:"cart.html",
+    //     chunks:["cart","vendor"]
+
+    // })
+],
+
+// mode
+//     模式  指示webpack使用相对应模式的配置
+//         开发模式 development  配置简单，能让代码本地调试运行的环境
+//         生产模式 production   代码需要不断优化达到性能最好，能让代码优化上线运行的环境
+        
+//         都会自启动一些插件，生产模式使用插件更多
+    mode:'development'
+
+}
+
+
+
+
+
+核心概念
+    entry
+        入口指示webpack以哪个文件作为入口起点开始打包，分析构建内部依赖图
+    output 
+        输出指示webpack 打包后的资源bundles输出到哪里，以及如何命名
+    loader
+        让webpack能够去处理那些非JavaScript资源css、img等，将它们处理成webpack能够识别的资源（webpack本身只能理解js和json）
+    plugins
+        插件  可用于执行范围更广的任务。插件的范围包括，从打包优化和压缩，一直到重新定义环境中的变量
+    mode
+        模式  指示webpack使用相对应模式的配置
+            开发模式 development  配置简单，能让代码本地调试运行的环境
+            生产模式 production   代码需要不断优化达到性能最好，能让代码优化上线运行的环境
+            
+            都会自启动一些插件，生产模式使用插件更多
+
+
+
+
+打包html资源
+使用插件plugins进行处理   html-webpack-plugin
+   下载 npm i html-webpack-plugin -D
+   引用 const HtmlPackagePlugin=require('html-webpack-plugin')
+   使用   
+        plugins:[
+            //功能：默认会创建一个空的html文件，自动引入打包输出的所有资源（js/css）
+            //new HtmlPackagePlugin()
+
+            //通过参数可以输出有结构的html资源
+            new HtmlPackagePlugin({
+                //复制'./src/index.html'文件，并自动引入打包输出的所有资源
+                template:"./src/index.html",
+                //默认是index.html的名称，通过filename设置输出文件名称
+                filename:'demo.html'
+            })
+        ]
+    html-webpack-plugin插件生成的内存中的页面已经创建并正确引用了打包编译生成的资源（js/css）
+
+
+压缩js和html代码
+  js代码只需设置成生产模式production，会自动压缩
+  压缩html方法
+     //通过参数可以输出有结构的html资源
+       new HtmlPackagePlugin({
+            //复制'./src/index.html'文件，并自动引入打包输出的所有资源
+            template:"./src/index.html",
+            //默认是index.html的名称，通过filename设置输出文件名称
+            filename:'demo.html',
+            //指定引用打包js资源的chunk
+            chunks:[""],
+
+            //压缩html代码
+            minify:{
+                //移除空格
+                collapaseWhitespace:true,
+                //移除注释
+                removeComments:true
+            }
+       })
+
+
+打包css资源
+    安装两个loader完成打包
+        npm i css-loader style-loader -D
+        webpack
+
+        css-loader
+            处理css中@import和url这样的外部资源
+        style-loader 
+            把样式插入DOM中，方法是在head中插入一个style标签，并把样式写入到这个标签的innerHTML里   
+// loader
+//     让webpack能够去处理那些非JavaScript资源如css、img等，将它们处理成webpack能够识别的资源（webpack本身只能理解js和json）
+module:{
+    rules:[
+        {
+            test:/\.css$/,//正则匹配
+            use:['style-loader','css-loader']//执行顺序：从右到左、从上到下
+        }
+
+    ]
+},
+
+
+打包less或sass资源
+    因为css只是单纯的属性描述，不具有变量、条件语句等，css特性导致难组织和维护
+    sacc和less都属于css预处理器，定义了一种新的语言，基本思想是用一种专门的编程语言，为css增加一些编程的特性，将css作为目标生成文件，然后开发者使用这种语言进行css编码工作
+    less需下载less和less-loader
+        {
+            test:/\.less$/,
+            use:['style-loader','css-loader','less-loader']
+        }
+    sass需下载node-sass和sass-loader
+        {
+            test:/\.scss$/,//文件名为scss
+            use:['style-loader','css-loader','sass-loader']
+        }
+
+
+提取css为单独文件
+    引入插件  mini-css-extract-plugin
+        webpack.config.js 中引用
+            const MiniCssExtractPlugin=require('mini-css-extract-plugin');
+        plugins模块中使用插件
+            plugins:[new MiniCssExtractPlugin()]
+            或通过参数filename重新命名提取的css文件
+            new MiniCssExtractPlugin({
+                filename:'./css/demo.css'
+            })
+        在css的rules中，使用MiniCssExtractPlugin.loader替换style-loader,提取js中的css内容为单独文件
+            {test:/\.css$/,use:['MiniCssExtractPlugin.loader','css-loader']}
+            如果sacc和less也提取为单独的css文件，也一样将style-loader替换为MiniCssExtractPlugin.loader
+            {test:/\.scss$/,use:['MiniCssExtractPlugin.loader','css-loader','sacc-loader']}
+
+
+处理css兼容性
+    使用postcss处理，下载postcss-loader和postcss-preset-env
+        npm i postcss-loader postcss-preset-env -D
+    postcss会找到package.json中的browserslist里面的配置，通过配置加载css兼容性
+        "browserslist":[
+            ">0.2%",//兼容88%的浏览器
+            "last 2 version",//兼容最新的2个版本内的浏览器
+            "not dead"//不需要兼容死掉的浏览器
+        ]
+    修改loader配置，新版需写postcss.config.js,less和sass兼容同理
+        --postcss.config.js
+        module.exports={
+            plugins:[
+                require('postcss-preset-env')
+            ]
+        }
+        --webpack.config.js
+        {
+            test:/\.css$/,//正则匹配
+            use:[MiniCssExtractPlugin.loader,'css-loader','postcss-loader']//执行顺序：从右到左、从上到下
+        }
+
+压缩css
+    使用optimize-css-assets-webpack-plugin插件//webpack v5使用css-minimizer-webpack-plugin
+        安装 npm i optimize-css-assets-webpack-plugin -D  //npm i css-minimizer-webpack-plugin -D
+        引用 const OptimizeCssAssetsWebpackPlugin=require('css-minimizer-webpack-plugin')
+        使用 plugins:[new OptimizeCssAssetsWebpackPlugin()]
