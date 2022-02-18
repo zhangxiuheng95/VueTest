@@ -1,0 +1,5 @@
+监听资源文件的变化，实时编译
+安装
+    npm i webpack-dev-server -D
+运行
+    webpack serve --port 300  //端口  --host //设置IP  --hot//开发热替换  --open//自动打开浏览器  --history//查看历史记录

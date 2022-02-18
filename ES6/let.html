@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //为什么新增let声明变量关键字
+        //var 不好用  可以重复声明，无法限制修改，没有块级作用域 ,支持变量提升
+        /*
+            块级作用域 ： {}  if(){} for(){}
+            只有在function(){}()有作用域
+        */
+        // {
+        //     var a=10;
+        //     console.log(a);
+        // }
+        // console.log(a);
+
+
+        // var name='mokey';
+        // if (true) {
+        //     var name='edu';
+        //     console.log(name);
+        // }
+        // console.log(name);
+
+        // var name='mokey';
+        // function Myname() {
+        //     var name='edu';
+        // }
+        // console.log(name);
+
+        var name='mokey';
+        if (true) {
+            //自作用域，解决var作用域问题
+            (function(name){
+                var name='edu';
+                console.log(name);
+            })();
+            
+        }
+        console.log(name);
+
+        
+    </script>
+
+<button>按钮1</button>
+<button>按钮2</button>
+<button>按钮3</button>
+<button>按钮4</button>
+<button>按钮5</button>
+
+<script>
+    // var btn=document.getElementsByTagName('button');
+    // for (var i = 0; i < btn.length; i++) {
+    //     (function (i) {
+    //         btn[i].addEventListener('click',function() {
+    //         console.log(i);
+    //         })
+    //     })(i)
+        
+    // }
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+// function person(name,age,sex) {
+//     this.name=name;
+//     this.age=age;
+//     this.sex=sex;
+//     this.say=function(){
+//         console.log(name);
+//     }
+//     this.run=function(){
+//         console.log("run");
+//     }
+// }
+// let p=new person("zhangsan",20,'男');
+// p.say();
+class person{
+    constructor(name,age,sex){
+    this.name=name;
+    this.age=age;
+    this.sex=sex;
+    }
+    say(){
+        console.log(this.name);
+    }
+}
+
+class student extends person{
+    constructor(name,age,sex,school){
+        super(name,age,sex);
+        this.school=school;
+    }
+    study(){
+        console.log(this.school);
+    }
+}
+const p= new person("zhangsan",20,'男');
+p.say();
+
+
+const s=new student("zhangsan",20,'男',"daxue");
+s.study();
+
+
+
+const obj={name:"1",age:2,sex:"nan",say(){
+    console.log(this.name)
+}};
+obj.say();
+let str=JSON.stringify(obj);
+
+console.log(str);
+
+let jso=JSON.parse(str);
+
+console.log(jso);
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+// function fun(x) {
+//     return x*x;
+// }
+// const fun1=function(x){
+//     return x*x;
+// }
+// const fun2=(x)=>{return x*x};
+
+// const fun2=x=>x*x;
+
+// console.log(fun1(10));
+
+//回调函数中使用箭头函数
+// let arr=[1,2,53,23,45,98,4];
+
+// //let narr=arr.sort(function(a,b){return a-b;})
+
+// let narr=arr.sort((a,b)=>b-a);
+// console.log(narr);
+
+//箭头函数返回对象时，必须在对象外面加上()
+// const fun=id=>({id:id,name:'zhangsan'});
+// console.log(fun(10).name);
+
+//剪头函数没有构造器,不是构造函数
+    // function demo(){
+
+    // }
+    // const obj=new demo();
+
+    // console.log(obj);
+
+    // const demo1=()=>{return 1;};
+    // const obj1=new demo1();
+
+    // console.log(obj1);
+
+
+
+//         const obj={
+//             fun:function(){
+//                 console.log(this);
+//             }
+//         };
+
+//         const obj2={
+//             fun:()=>{console.log(this);}
+//         }
+//         obj.fun();
+
+//         obj2.fun();
+
+// function add() {
+//     console.log(this);
+// }
+// window.add();
+
+    </script>
+
+<style>
+    #box{
+        width: 100px;
+        height: 50px;
+        background-color: red;
+    }
+#box.bgcolor{
+    background-color: yellow;
+}
+
+</style>
+
+<div id="box"></div>
+
+<script>
+    const box=document.getElementById('box');
+    // box.onclick=function(){
+    //     const obj=this;
+    //     setTimeout(function() {
+    //         console.log(this);
+    //         obj.className='bgcolor';
+    //     },3000);
+    // }
+
+    box.onclick=function(){
+        console.log(this);
+        setTimeout(()=>{
+            console.log(this);
+            this.className='bgcolor';
+        },3000);
+    }
+</script>
+</body>
+</html>

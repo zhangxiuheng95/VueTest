@@ -1,0 +1,50 @@
+开发环境优化
+    打包构建速度
+    优化代码调试
+
+    HMR(模块热替换)hot module replacement
+        允许在运行的时候更新各个模块，而不是全部刷新
+        启用
+            devServer:{
+                hot:true,//开启HMR
+                open:true,
+                port:3001
+            }
+        启用后，module.hot接口就会暴露在index.js中，接下来需要在index.js中配置告诉webpack接受的模块
+            1.css HMR功能，在开发环境中使用style-loader
+            2.html HMR功能，默认没有HMR功能，需要在entry入口中引入
+            3.js HMR功能，默认没有，只能处理非入口文件的js
+
+            if (module.hot) {
+                module.hot.accept('./print.js',function(){//告诉webpack接受热替换HMR的模块
+                    console.log('接受修改');
+                    printMe();
+                })
+            }
+            服务期检测到了print.js的代码变化并且执行了module.hot.accept的回调函数
+
+
+
+
+生产环境的优化
+    代码运行的性能
+        去除项目的死代码
+            去除没有用到的js代码
+                webpack通过tree-shaking去掉了实际上没有用到的js代码(自带)
+                    必须使用es6模块化   开启production环境
+
+            去除没有用到的css代码
+                webpack通过purgecss-webpack-plugin去除无用的css
+                const { resolve,join } = require('path');
+                const PurgecssPlugin=require('purgecss-webpack-plugin');
+                const glob=require('glob');
+                const PATHS={scr:join(__dirname,'src')};
+                new PurgecssPlugin({
+                            paths:glob.sync(`${PATHS.src}/**/*`,{nodir:true}),
+                            safelist:function(){
+                                return {
+                                    standard:['box']
+                                }
+                            }
+                        })
+    

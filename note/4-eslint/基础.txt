@@ -1,0 +1,26 @@
+对js语法配置语法检查eslint
+    语法检查用eslint-loader，并基于eslint包，只用来检查js语法（只检查自己库的语法，第三方库不检查）
+    使用js来的规则库检查代码airbnb，需要eslint-config-airbnb-base和eslint-plugin-import两个包
+        npm i eslint-config-airbnb-base eslint-plugin-import -D
+
+    package.json  //开启检查
+        "eslintConfig": {
+            "extends": "airbnb-base"
+        }
+    webpack.config.js
+        {
+                 test:/\.js$/,
+                 exclude:/node_modules/,
+                 use:[{
+                    loader:'eslint-loader',
+                    options:{
+                        fix:true//自动修复可修复的错误
+                    }
+                 }]
+             }
+    js文件中
+    // 写有此代码代表下一行代码eslint所有规则失效
+    // eslint-disable-next-line
+
+
+https://www.jianshu.com/p/ad1e46faaea2

@@ -1,9 +1,0 @@
-webpack-demo  创建项目目录
-npm init -y 初始化npm
-npm install webpack webpack-cli --D dev环境 安装webpack和webpack-cli
-创建src目录（按照需求创建目录或子目录）
-创建js文件和主入口文件index.js
-控制台运行命令
-   webpack --mode development (开发环境)
-   webpack --mode production (生产环境)
-使用node运行打包后的资源，或者使用html5引入打包后的资源

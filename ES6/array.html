@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        /*
+            有一个商品列表
+                1.将大于10元的商品打折，取出大于10元的商品
+                2.将10元以上的商品打5折
+                3.打折商品的总价
+        */
+
+        let goods=[30,38,2,287,69,9];
+        //传统做法
+        //取出大于10元以上的商品
+        // let goods1=[];
+        // for (let n of goods) {
+        //     if (n>10) {
+        //         goods1.push(n);
+        //     }
+        // }
+        // console.log(goods1);
+        // //将10元以上的商品打5折
+        // let goods2=[];
+        // for (const n of goods1) {
+        //     goods2.push(n/2)
+        // }
+        // console.log(goods2);
+        // //打折商品的总价
+        // let sum=0;
+        // for (const n of goods2) {
+        //     sum+=n;
+        // }
+        // console.log(sum);
+
+        //filter用法
+    //    let goods1= goods.filter(function(n) {
+    //         return n>10;
+    //     })
+    //     console.log(goods1);
+    //     //map
+    //     let goods2=goods1.map(function(n){
+    //         return n/2;
+    //     })
+    //     console.log(goods2);
+    //     //reduce
+    //     let goods3=goods2.reduce(function (s,n) {
+    //         console.log("s="+s+",n="+n);
+    //         return s+n;
+    //     },0)
+    //     console.log(goods3);
+        /*
+            第一次s是0，n是数组中的第一个元素 15
+            第二次s是第一次回调函数的返回值，n是数组中的第二个元素 19
+            第三次s是第二次回调函数的返回值，n是数组中的第三个元素 143.5
+            ...
+            第n次s是上一次回调函数的返回值，n是数组中的下一个个元素
+        */
+
+        let sum=goods.filter(n=> n>10).map(n=>n/2).reduce((s,n)=>s+n);
+
+console.log(sum);
+
+    </script>
+
+</body>
+</html>
