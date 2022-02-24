@@ -1,0 +1,127 @@
+认识
+    axios简单的理解就是ajax的封装
+    是一个基于promise的http库
+    支持node端和浏览器
+    使用promise管理异步，告别传统的callback方式
+    丰富的配置项，支持拦截器等高级配置
+    转换请求数据和响应数据
+
+
+项目的两种编程方式--模板式编程和接口式编程
+    RestFul API规范（URL,HTTP,版本，状态码，返回值，请求条件等）
+        get
+        post
+        put
+        patch
+        delete
+
+入门应用
+    以CDN的静态资源方式引入   bootcdn  搜axios
+
+    默认get
+    axios(url).then(res=>{
+
+    })
+
+    axios({
+        method:"get",
+        url:"",
+        params:{
+            name:""
+        }
+    }).then(res=>{}).catch(err=>{})
+
+    axios({
+        method:"post",
+        headers:{
+            'content-type':'application/x-www-form-urlencoded'
+        },
+        url:"",
+        data:{
+            name:""
+        }
+    }).then(res=>{}).catch(err=>{})
+
+
+生产环境
+    import axios from 'axios'
+
+    axios.request(config)
+    axios.get(url[,config])
+    axios.delete(url[,config])
+    axios.head(url[,config])
+    axios.post(url[,data[,config]])
+    axios.put(url[,data[,config]])
+    axios.patch(url[,data[,config]])
+
+
+
+处理并发请求
+    axios.all()
+
+
+
+全局配置
+    axios.default.baseURL='';
+    axios.default.timeout=5000;
+    axios.default.headers.post['content-type']='application/x-www-urlencoded';
+
+
+整理数据
+    axios.default.transformRequest=function(data){
+        data=JSON.stringify(data);
+        return data;
+    }
+
+
+
+配置实例
+axios.create({
+    baseURL:"",//请求地址
+    timeout:1000,//后端定义超时时长
+    url:'',//请求路径
+    method:'',//请求方法  get/post
+    headers:[],//请求头
+    params:{},//url拼接参数
+    data:{}//body参数
+})
+
+
+
+拦截器
+    为每个请求带上参数  token，时间戳等
+    对返回的状态进行判断，比如token过期
+
+    请求拦截器
+    axios.interceptors.request.use(
+    config=>{
+            // 每次发送请求之前判断是否有token
+            //如果存在，则统一在http请求的headers都带上token，
+            //即使本地存在token，也有可能token过期，所以在响应拦截器中对返回状态进行判断
+            const token=window.localStorage.getItem("token");
+            token && (config.headers.Authorization=token);
+            return config;
+        },error=>{
+            return Promise.error(error);
+        }
+    )
+    响应拦截器
+axios.interceptors.response.use(
+    respense=>{
+        //如果返回的状态码为200，说明接口请求成功，可以正常拿到数据
+        //否则的话抛出错误
+        if (response.status===200) {
+            return Promise.resolve(response);
+        }else{
+            return Promise.reject(response);
+        }
+    },
+    //服务器状态码不是2开头的情况
+    //根据后台状态码协议进行响应的操作
+    error=>{
+        if (error.response.status) {
+            return Promise.reject(error.response);
+        }
+    }
+    
+)

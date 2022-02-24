@@ -1,0 +1,76 @@
+<script>
+    // 回调地狱  函数里套函数
+    // $.get('url1',data1=>{
+    //     //一系列处理
+    //     $.get(data1,url2,data2=>{
+    //         //一系列处理
+    //         $.get(data2,url3,data3=>{
+
+    //             ///....
+    //         })
+    //     })
+    // })
+
+
+    // setTimeout(() => {
+    //     console.log('第一层');
+    //     setTimeout(() => {
+    //         console.log('第二层');
+    //         setTimeout(() => {
+    //             console.log('第三层');
+
+    //         }, 1000);
+    //     }, 1000);
+    // }, 1000);
+
+    function demo(mess, t) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(mess)
+            }, t * 1000);
+        })
+    }
+
+    // new Promise((resolve,reject)=>{
+    //     console.log('第一层');
+    //     // setTimeout(() => {
+    //     //     throw '这是一个异常';
+    //     //     resolve('第二层');//成功
+    //     // }, 1000);
+    //     reject('一个错误');//失败
+    // }).then(res=>{
+    //     console.log(res);
+
+    //     // return new Promise((resolve,reject)=>{
+    //     //     resolve('第三层1');
+    //     // })
+
+    //     // return Promise.resolve('第三层2');
+
+    //     // return '第三层3';
+
+    //     return demo('第三层4',2)
+
+    // }).then(res=>{
+    //     console.log(res);
+
+    // }).catch(err=>{
+    //     console.log(err);
+    // })
+
+    //并发请求处理
+    Promise.all([
+        new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('这是第一个请求')
+            }, 1000)
+        }),
+        new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve('这是第三个请求')
+            }, 1000)
+        })
+    ]).then(res => {
+        console.log(res);
+    })
+</script>

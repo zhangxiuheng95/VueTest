@@ -131,7 +131,7 @@ module.exports = {
              // minify:{
              //     //移除空格
              //     collapaseWhitespace:true,
-             //     //移除注释
+             //     //移除注释》ZAq
              //     removeComments:true
              // }
          }),
